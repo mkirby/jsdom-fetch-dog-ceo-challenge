@@ -6,9 +6,8 @@ const dogBreeds = []
 
 // EVENT LISTENERS
 dropdownSelector.addEventListener("change", event => {
-    const selection = event.target.options.selectedIndex
-    const selectedLetter = event.target.options[selection].value
-    clearBreeds()
+    const selectedLetter = event.target.value
+    clearBreedsList()
     sortBreeds(selectedLetter)
 })
 
@@ -27,6 +26,8 @@ function loadBreeds() {
         .then(response => response.json())
         .then(data => {
             const breeds = data.message
+            console.log("data: ", data)
+            console.log("data.message: ", data.message)
             for (const key in breeds) {
                 dogBreeds.push(key)
             }
@@ -35,16 +36,22 @@ function loadBreeds() {
     )
 }
 
-function clearBreeds() {
-    const listItems = document.querySelectorAll("#dog-breeds li")
-    listItems.forEach (li => li.remove())
+function clearBreedsList() {
+    dogBreedUl.innerHTML = ""
+    // const listItems = document.querySelectorAll("#dog-breeds li")
+    // listItems.forEach (li => li.remove())
 }
 
 function sortBreeds(character) {
     const sortedBreeds = dogBreeds.filter((breed) => breed.startsWith(character))
-    for (const breed of sortedBreeds) {
+    //forEach iteration
+    sortedBreeds.forEach(breed => {
         displayBreed(breed)
-    }
+    })
+    // for..of loop iteration
+    // for (const breed of sortedBreeds) {
+    //     displayBreed(breed)
+    // }
 }
 
 function displayDogs(dogImages) {
